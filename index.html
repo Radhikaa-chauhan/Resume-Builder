@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="
+  style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+</head>
+<body>
+
+<div id="container">
+
+<h1>Resume Builder</h1>
+
+<form id="form-section">
+  <!-- fdprocessedid is not added yet -->
+
+<!-- Name -->
+<label for="Name">Name:</label>
+<input type="text" id="Name" name="Name" required placeholder="Enter your name">
+
+<!-- Email-id -->
+<label for="Email">Email-id:</label>
+<input type="email" id="Email" name="Email" required placeholder="Enter your Email-id">
+
+<!-- Phone number -->
+<label for="Phonenumber">Phone Number:</label>
+<input type="tel" id="Phonenumber" name="Phonenumber" required placeholder="Enter your Phone number">
+
+<!-- Linked In -->
+<label for="LinkedIn">LinkedIn Profile:</label>
+<input type="url" id="LinkedIn" name="LinkedIn" required placeholder="Enter your LinkedIn Profile">
+
+<!-- Github profile -->
+<label for="Github ">Github Profile:</label>
+<input type="url" id="Github" name="Github" required placeholder="Enter your Github Profile">
+
+<!-- Work Experience -->
+ <label for="WorkExperience">Work Experience:</label>
+ <textarea id="WorkExperience" row=
+ "4" name="WorkExperience" required placeholder="Enter your Work Experience"></textarea>
+
+ <!-- Education  -->
+ <label for="Education">Education:</label>
+ <textarea id="Education" row=
+ "4" name="Education" required placeholder="Enter your Education"></textarea>
+
+  <!-- Photo upload -->
+   <label for="Photo">Upload Photo:</label>
+   <input type="file" id="Photo" name="Photo" required placeholder="Upload Your Photo here">
+
+<!-- Preview Resume Button -->
+ <button type="button" onclick="downloadResume()">Preview Resume</button>
+
+</form>
+<center>
+<!-- Output resume -->
+
+ <div class="resume-output"id="resume-output" style="display: none;">
+<h1>
+  <span id="output-name"></span>
+</h1>
+<p>
+  <img id="output-photo" alt="Uploaded Photo" style="max-width:100px; display: none;">
+</p>
+<p>
+  <strong>Email:</strong>
+  <span id="output-email"></span>
+</p>
+<p>
+  <strong>Phone Number:</strong>
+  <span id="output-phone"></span>
+</p>
+<p>
+  <strong>LinkedIn Profile:</strong>
+  <span id="output-linkedin"></span>
+</p>
+<p>
+  <strong>Github Profile:</strong>
+  <span id="output-github"></span>
+</p>
+<p>
+  <strong>Work Experience:</strong>
+  <span id="output-work-experience"></span>
+</p>
+<p>
+  <strong>Education:</strong>
+  <span id="output-education"></span>
+</p>
+<button type="button" onclick="downloadResume()">Download Resume</button>
+</div>
+</center>
+
+</div>
+
+<script >
+  function generateResume() {
+    // Get input valued
+    document.getElementById("output-name").textContent = document.getElementById("Name").value;
+    document.getElementById("output-email").textContent = document.getElementById("Email").value;
+    document.getElementById("output-phone").textContent = document.getElementById("PhoneNumber").value;
+ document.getElementById("output-linkedin").textContent=document.getElementById("LinkedIn").value;
+ document.getElementById("output-github").textContent=document.getElementById("Github").value;
+ document.getElementById("output-work-experience").textContent=document.getElementById("WorkExperience").value;
+ document.getElementById("output-education").textContent=document.getElementById("Education").value;
+ document.getElementById("output-education").textContent=document.getElementById("Education").value;
+ // Get photo
+ const photoInput = document.getElementById("photo");
+ const outputPhoto=document.getElementById("output-photo");
+ if(photoInput.files && photoInput.files[0]){
+  const reader = new FileReader();
+  reader.onload =function(e){
+    outputPhoto.src=e.target.result;
+    outputPhoto.style.display='block';
+  };
+
+ reader.readAsDataURL(photoInput.files[0]);
+}
+else{
+  outputPhoto.style.display='none';
+}
+
+//Show the resume output
+document.getElementById("resume-output").style.display="block";
+document.getElementById("resume-form").style.display ="none";}
+
+function downloadResume(){
+  const element = document.getElementById("resume-output");
+  html2pdf(element,{
+    margin: 0,
+    filename: 'resume.pdf',
+    image: {type: 'jpeg', quality: 0.98},
+    html2canvas: {scale:2},
+    jsPDF: {unit:'in', format:'a4', orientation:'portrait'}
+  });
+}
+
+</script>
+
+
+</body>
+</html>
